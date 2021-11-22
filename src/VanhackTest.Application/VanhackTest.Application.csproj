@@ -11,6 +11,9 @@
     <RootNamespace>VanhackTest</RootNamespace>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile />
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\VanhackTest.Core\VanhackTest.Core.csproj" />
   </ItemGroup>
