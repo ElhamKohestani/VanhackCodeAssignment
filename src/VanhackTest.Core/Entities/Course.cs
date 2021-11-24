@@ -12,6 +12,7 @@ namespace VanhackTest.Core.Entities
     {
         public Course()
         {
+            CourseAccessLevels = new HashSet<CourseAccessLevel>();
             CourseRecordings = new HashSet<CourseRecording>();
         }
 
@@ -23,6 +24,7 @@ namespace VanhackTest.Core.Entities
         public long CreatedBy { get; set; }
 
         public virtual CourseCategory Category { get; set; }
+        public virtual ICollection<CourseAccessLevel> CourseAccessLevels { get; set; }
         public virtual ICollection<CourseRecording> CourseRecordings { get; set; }
 
         public bool IsTransient()

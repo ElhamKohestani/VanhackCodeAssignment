@@ -6,16 +6,23 @@ using VanhackTest.MultiTenancy;
 using VanhackTest.Core.Entities;
 using Abp.Domain.Repositories;
 using VanhackTest.EntityFrameworkCore.Repositories;
+using Abp.EntityFrameworkCore;
 
 namespace VanhackTest.EntityFrameworkCore
 {
-    
-    public class VanhackTestDbContext : AbpZeroDbContext<Tenant, Role, User, VanhackTestDbContext>
+    //[AutoRepositoryTypes(
+    //    typeof(IRepository<>),
+    //    typeof(IRepository<,>),
+    //    typeof(VanhackTestRepositoryBase<>),
+    //    typeof(VanhackTestRepositoryBase<,>)
+    //)]
+    public class VanhackTestDbContext :  AbpZeroDbContext<Tenant, Role, User, VanhackTestDbContext>
     {
         /* Define a DbSet for each entity of the application */
         public virtual DbSet<Course> Courses { get; set; }
         public virtual DbSet<CourseCategory> CourseCategories { get; set; }
         public virtual DbSet<CourseRecording> CourseRecordings { get; set; }
+        public virtual DbSet<CourseAccessLevel> CourseAccessLevels { get; set; }
 
         public VanhackTestDbContext(DbContextOptions<VanhackTestDbContext> options)
             : base(options)
@@ -49,6 +56,23 @@ namespace VanhackTest.EntityFrameworkCore
                     .HasConstraintName("FK_CourseCategoryID");
             });
 
+            modelBuilder.Entity<CourseAccessLevel>(entity =>
+            {
+                entity.ToTable("CourseAccessLevel", "CRS");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.CourseId).HasColumnName("CourseID");
+
+                entity.Property(e => e.RoleId).HasColumnName("RoleID");
+
+                entity.HasOne(d => d.Course)
+                    .WithMany(p => p.CourseAccessLevels)
+                    .HasForeignKey(d => d.CourseId)
+                    .HasConstraintName("FK_CourseAccessLevel_CourseID");
+            });
+
+
             modelBuilder.Entity<CourseCategory>(entity =>
             {
                 entity.ToTable("CourseCategory", "CRS");
@@ -62,6 +86,8 @@ namespace VanhackTest.EntityFrameworkCore
 
                 entity.Property(e => e.CreatedOn).HasDefaultValueSql("(getdate())");
             });
+
+
 
             modelBuilder.Entity<CourseRecording>(entity =>
             {

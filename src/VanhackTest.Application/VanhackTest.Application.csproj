@@ -13,9 +13,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile />
+    <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\VanhackTest.Core\VanhackTest.Core.csproj" />
+    <ProjectReference Include="..\VanhackTest.EntityFrameworkCore\VanhackTest.EntityFrameworkCore.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DTOs" />

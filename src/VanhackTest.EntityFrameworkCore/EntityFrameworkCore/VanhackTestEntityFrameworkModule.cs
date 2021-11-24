@@ -1,8 +1,16 @@
-﻿using Abp.EntityFrameworkCore.Configuration;
+﻿using Abp.Domain.Repositories;
+using Abp.EntityFrameworkCore.Configuration;
 using Abp.Modules;
 using Abp.Reflection.Extensions;
 using Abp.Zero.EntityFrameworkCore;
+using VanhackTest.Core.Entities;
 using VanhackTest.EntityFrameworkCore.Seed;
+using VanhackTest.EntityFrameworkCore.Repositories;
+
+using VanhackTest.Core.RepositoryAbstractions;
+using VanhackTest.EntityFrameworkCore.Repositories.CourseRepositories;
+using Castle.MicroKernel.Registration;
+using Abp.Configuration.Startup;
 
 namespace VanhackTest.EntityFrameworkCore
 {
@@ -18,6 +26,18 @@ namespace VanhackTest.EntityFrameworkCore
 
         public override void PreInitialize()
         {
+
+
+            Configuration.ReplaceService<IRepository<Course, int>>(() =>
+            {
+                IocManager.IocContainer.Register(
+                    Component.For<IRepository<Course, int>, ICourseRepository, CourseRepository>()
+                        .ImplementedBy<CourseRepository>()
+                        .LifestyleTransient()
+                );
+            });
+
+
             if (!SkipDbContextRegistration)
             {
                 Configuration.Modules.AbpEfCore().AddDbContext<VanhackTestDbContext>(options =>

@@ -13,6 +13,7 @@ using VanhackTest.Authentication.JwtBearer;
 using VanhackTest.Configuration;
 using VanhackTest.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using Abp.Configuration.Startup;
 
 namespace VanhackTest
 {
@@ -35,6 +36,11 @@ namespace VanhackTest
 
         public override void PreInitialize()
         {
+            Configuration.Modules.AbpWebCommon().SendAllExceptionsToClients = true;
+
+          
+
+
             Configuration.DefaultNameOrConnectionString = _appConfiguration.GetConnectionString(
                 VanhackTestConsts.ConnectionStringName
             );

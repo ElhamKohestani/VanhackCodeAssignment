@@ -14,6 +14,7 @@ namespace VanhackTest.Authorization
             context.CreatePermission(PermissionNames.Pages_Tenants, L("Tenants"), multiTenancySides: MultiTenancySides.Host);
              Permission CourseP= context.CreatePermission(PermissionNames.Pages_Courses, L("Courses"), multiTenancySides: MultiTenancySides.Host);
             Permission CourseCreatorP = CourseP.CreateChildPermission(PermissionNames.Pages_Courses + ".Creator", multiTenancySides: MultiTenancySides.Host);
+           
 
         }
 
